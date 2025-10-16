@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.blogsystemdemo.mapper.MessageMapper">
+    <resultMap id="MessageResultMap" type="com.example.blogsystemdemo.entity.Message">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="userId" column="user_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <insert id="addMessage" parameterType="com.example.blogsystemdemo.entity.Message">
+        INSERT INTO message(content, user_id, create_time)
+        VALUES (#{content}, #{userId}, #{createTime})
+    </insert>
+</mapper>

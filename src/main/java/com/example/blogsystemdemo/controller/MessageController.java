@@ -1,0 +1,34 @@
+package com.example.blogsystemdemo.controller;
+
+import com.example.blogsystemdemo.dto.Result;
+import com.example.blogsystemdemo.entity.Message;
+import com.example.blogsystemdemo.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/messages")
+public class MessageController {
+    @Autowired
+    private MessageService messageService;
+
+    @GetMapping
+    public Result<List<Message>> getMessages() {
+        List<Message> messages = messageService.getAllMessages();
+        return Result.success(messages);
+    }
+
+    @PostMapping
+    public Result<?> addMessage(@RequestBody Message message) {
+        if (message.getContent() == null || message.getContent().trim().isEmpty()) {
+            return Result.error("content不能为空");
+        }
+        if (message.getCreateTime() == null) {
+            message.setCreateTime(java.time.LocalDateTime.now());
+        }
+        int result = messageService.addMessage(message);
+        return result > 0 ? Result.success(null, "留言成功") : Result.error("留言失败");
+    }
+}
