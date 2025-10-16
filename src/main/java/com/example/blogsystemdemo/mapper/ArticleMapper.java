@@ -22,8 +22,13 @@ public interface ArticleMapper {
     //根据id查询文章
     public Article getArticleById(Long id);
 
-    // 增加文章浏览量
-    int incrementViewCount(Long id);
+    /**
+     * 累加文章浏览量（用于Redis同步）
+     *
+     * @param articleId 文章ID
+     * @param increment 增量值
+     */
+    int incrementViewCountBy(@Param("articleId") Long articleId, @Param("increment") int increment);
 
     // 获取文章总数
     int getTotalArticles();

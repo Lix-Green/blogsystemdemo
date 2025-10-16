@@ -7,6 +7,7 @@ import com.example.blogsystemdemo.entity.User;
 import com.example.blogsystemdemo.mapper.ArticleMapper;
 import com.example.blogsystemdemo.mapper.UserMapper;
 import com.example.blogsystemdemo.service.ArticleService;
+import com.example.blogsystemdemo.service.RedisService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,26 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleMapper articleMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RedisService redisService;
 
+    @Override
+    public Result<Article> getArticleById(Long id) {
+        Article article = articleMapper.getArticleById(id);
+        if (article == null) {
+            return Result.error("文章不存在");
+        }
+        // 使用 Redis 增加浏览量
+        redisService.incrementArticleView(id);
+        // 获取Redis中的实时浏览量并更新到返回对象中
+        Long redisViewCount = redisService.getArticleViewCount(id);
+        // 修复：数据库中已经保存的是历史累计值，Redis中是未同步的增量
+        article.setViewCount(article.getViewCount() + redisViewCount.intValue());
+        // 获取作者信息
+        User author = userMapper.getUserById(article.getAuthorId());
+        article.setAuthor(author);
+        return Result.success(article);
+    }
 
     @Override
     public Result<?> listArticles(int pageNum, int pageSize) {
@@ -77,18 +97,6 @@ public class ArticleServiceImpl implements ArticleService {
     public Result<Boolean> deleteArticleById(Long id, Long userId) {
         int rows = articleMapper.deleteArticle(id);
         return Result.success(rows > 0);
-    }
-
-    public Result<Article> getArticleById(Long id) {
-        Article article = articleMapper.getArticleById(id);
-        if (article == null) {
-            return Result.error("文章不存在");
-        }
-        articleMapper.incrementViewCount(id);
-        User author = userMapper.getUserById(article.getAuthorId());
-        article.setAuthor(author);
-
-        return Result.success(article);
     }
 
     /**

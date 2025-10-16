@@ -92,4 +92,12 @@
         WHERE author_id = #{authorId}
     </select>
 
+    <!-- 修改使用redis同步浏览器浏览量 -->
+    <update id="incrementViewCountBy">
+        UPDATE article
+        SET view_count   = view_count + #{increment}, -- 核心：累加而不是覆盖
+            updated_time = NOW()
+        WHERE id = #{articleId}
+    </update>
+
 </mapper>
