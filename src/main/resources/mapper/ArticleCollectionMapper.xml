@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.blogsystemdemo.mapper.ArticleCollectionMapper">
+
+    <!-- 1. 新增收藏记录 -->
+    <insert id="insertCollection" parameterType="com.example.blogsystemdemo.entity.ArticleCollection">
+        INSERT INTO article_collection (article_id, user_id, create_time)
+        VALUES (#{articleId}, #{userId}, NOW())
+    </insert>
+
+    <!-- 2. 删除收藏记录（取消收藏） -->
+    <delete id="deleteCollection">
+        DELETE
+        FROM article_collection
+        WHERE article_id = #{articleId}
+          AND user_id = #{userId}
+    </delete>
+
+    <!-- 3. 判断用户是否已收藏 -->
+    <select id="checkCollection" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM article_collection
+        WHERE article_id = #{articleId}
+          AND user_id = #{userId}
+    </select>
+
+    <!-- 4. 统计文章收藏数 -->
+    <select id="countCollectionByArticleId" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM article_collection
+        WHERE article_id = #{articleId}
+    </select>
+
+    <!-- 5. 查询用户收藏的文章ID列表 -->
+    <select id="listCollectedArticleIds" resultType="java.lang.Long">
+        SELECT article_id
+        FROM article_collection
+        WHERE user_id = #{userId}
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>

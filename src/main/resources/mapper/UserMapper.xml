@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.blogsystemdemo.mapper.UserMapper">
+    <select id="getUserById" parameterType="long" resultType="com.example.blogsystemdemo.entity.User">
+        select *
+        from user
+        where id = #{id}
+    </select>
+    <select id="getUserByUsername" parameterType="java.lang.String" resultType="User">
+        select *
+        from user
+        where username = #{username}
+    </select>
+    <insert id="createUser" parameterType="User">
+        insert into user(username, password, email, nickname, avatar, status, created_time, updated_time)
+        values (#{username}, #{password}, #{email}, #{nickname}, #{avatar}, #{status}, now(), now())
+    </insert>
+    <update id="updateUser" parameterType="User">
+        update user
+        set email        = #{email},
+            nickname     = #{nickname},
+            avatar       = #{avatar},
+            status       = #{status},
+            updated_time = now()
+        where id = #{id}
+    </update>
+</mapper>

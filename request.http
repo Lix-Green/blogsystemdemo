@@ -1,0 +1,103 @@
+GET http://localhost:9090/hello
+
+###查询所有文章
+GET http://localhost:9090/api/articles
+
+###新建文章
+POST http://localhost:9090/api/articles
+content-type: application/json
+
+{
+  "title": "测试文章标题2",
+  "content": "这是一篇测试文章的内容1",
+  "summary": "这是文章摘要1",
+  "coverImage": "https://picsum.photos/800/400",
+  "status": 1
+}
+
+###
+PUT http://localhost:9090/api/articles/8
+content-type: application/json
+
+{
+  "title": "修改测试文章标题",
+  "content": "修改文章内容",
+  "summary": "摘要",
+  "coverImage": "https://picsum.photos/800/400",
+  "status": 1
+}
+
+###删除文章
+DELETE http://localhost:9090/api/articles/34
+
+###
+GET http://localhost:9090/api/articles/8
+
+###查询个人信息
+GET http://localhost:9090/api/users/1
+
+###注册
+POST http://localhost:9090/api/users/register
+content-type: application/json
+
+{
+  "username": "new_user11",
+  "password": "password123",
+  "nickname": "新用户",
+  "email": "user@example.com"
+}
+
+###修改个人信息
+PUT http://localhost:9090/api/users/15
+content-type: application/json
+
+{
+  "nickname": "更新后的测试用户",
+  "email": "updatedtest@example.com",
+  "avatar": "https://picsum.photos/200/200?update=1",
+  "status": 1
+}
+
+###登录
+POST http://localhost:9090/api/users/login
+content-type: application/json
+
+{
+  "username": "admin",
+  "password": "123456"
+}
+
+###新增评论
+POST http://localhost:9090/api/comments
+content-type: application/json
+User-Id: 1
+
+{
+  "articleId": 1,
+  "content": "这是一条测试评论",
+  "parentId": 0
+}
+
+### 获取文章评论
+GET http://localhost:9090/api/comments/article/22
+
+### 删除评论
+DELETE http://localhost:9090/api/comments/38
+User-Id: 1
+
+###查询所有文章
+GET http://localhost:9090/api/articles?pageNum=1&pageSize=5
+
+###热门文章测试
+GET http://localhost:9090/api/articles/hot?pageNum=1&pageSize=5
+
+###点赞/取消点赞
+POST http://localhost:9090/api/article/like/toggle?articleId=8&userId=1
+Content-Type: application/json
+
+###查询点赞数
+GET http://localhost:9090/api/article/like/status?articleId=8&userId=1
+
+###收藏/取消收藏
+POST http://localhost:9090/api/article/collection/toggle?articleId=8&userId=1
+User-Id: 1
