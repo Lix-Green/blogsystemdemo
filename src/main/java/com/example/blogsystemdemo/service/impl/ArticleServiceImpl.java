@@ -89,6 +89,7 @@ public class ArticleServiceImpl implements ArticleService {
 //        if (!article.getAuthorId().equals(userId)) {
 //            return Result.error("没有权限修改此文章");
 //        }
+        article.setAuthorId(userId); // 必须设置 authorId，防止为 null
         int rows = articleMapper.updateArticle(article);
         return Result.success(rows > 0);
     }
