@@ -6,9 +6,16 @@
         <result property="content" column="content"/>
         <result property="userId" column="user_id"/>
         <result property="createTime" column="create_time"/>
+        <result property="nickname" column="nickname"/>
     </resultMap>
     <insert id="addMessage" parameterType="com.example.blogsystemdemo.entity.Message">
         INSERT INTO message(content, user_id, create_time)
         VALUES (#{content}, #{userId}, #{createTime})
     </insert>
+    <select id="getAllMessages" resultMap="MessageResultMap">
+        SELECT m.id, m.content, m.user_id, m.create_time, u.nickname
+        FROM message m
+                 LEFT JOIN user u ON m.user_id = u.id
+        ORDER BY m.create_time DESC
+    </select>
 </mapper>

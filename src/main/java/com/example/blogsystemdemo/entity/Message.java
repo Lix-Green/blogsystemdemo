@@ -7,6 +7,7 @@ public class Message {
     private String content;
     private Long userId;
     private LocalDateTime createTime;
+    private String nickname;
 
     // getters and setters
     public Long getId() {
@@ -39,5 +40,13 @@ public class Message {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
