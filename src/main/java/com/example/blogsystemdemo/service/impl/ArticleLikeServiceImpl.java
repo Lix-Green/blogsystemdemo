@@ -24,6 +24,7 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
         if (articleId == null || userId == null) {
             return Result.error("文章ID或用户ID不能为空");
         }
+
         // 2. 判断用户是否已点赞
         Integer isLiked = articleLikeMapper.checkLike(articleId, userId);
         try {

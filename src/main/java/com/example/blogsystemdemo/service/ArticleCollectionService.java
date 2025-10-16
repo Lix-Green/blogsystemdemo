@@ -4,15 +4,12 @@ import com.example.blogsystemdemo.dto.Result;
 
 import java.util.List;
 
+/**
+ * 文章收藏服务接口
+ * 定义收藏/取消收藏、状态查询、数量统计等功能
+ */
 public interface ArticleCollectionService {
-    /**
-     * 收藏/取消收藏
-     *
-     * @param articleId 文章ID
-     * @param userId    用户ID
-     * @return Result<Boolean>：data为当前收藏状态（true=已收藏，false=未收藏）
-     */
-    Result<Boolean> toggleCollection(Long articleId, Long userId);
+
 
     /**
      * 判断用户是否已收藏某文章

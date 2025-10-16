@@ -101,3 +101,14 @@ GET http://localhost:9090/api/article/like/status?articleId=8&userId=1
 ###收藏/取消收藏
 POST http://localhost:9090/api/article/collection/toggle?articleId=8&userId=1
 User-Id: 1
+
+###点赞/取消点赞
+POST http://localhost:9090/api/article/like/toggle?articleId=7
+user-id: 1
+
+###收藏/取消收藏
+POST http://localhost:9090/api/article/collection/toggle?articleId=7
+user-id: 1
+
+####查询点赞数
+GET http://localhost:9090/api/article/like/count?articleId=7

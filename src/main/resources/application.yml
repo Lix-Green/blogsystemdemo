@@ -19,6 +19,25 @@ spring:
         max-idle: 8
         min-idle: 0
         max-wait: -1ms
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    # 生产者确认配置
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    # 消费者配置
+    listener:
+      simple:
+        acknowledge-mode: manual  # 手动确认消息
+        concurrency: 2
+        max-concurrency: 5
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 1000
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.example.blogsystemdemo.entity

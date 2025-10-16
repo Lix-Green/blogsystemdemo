@@ -16,6 +16,16 @@ public class Result<T> {
         return result;
     }
 
+    // 新增的成功方法（支持自定义消息）
+    public static <T> Result<T> success(T data, String message) {
+        Result<T> result = new Result<>();
+        result.setCode(200);
+        result.setMessage(message);
+        result.setData(data);
+        return result;
+    }
+
+
     public static <T> Result<T> error(String message) {
         Result<T> result = new Result<>();
         result.setCode(500);
