@@ -26,10 +26,13 @@ public class ArticleLikeController {
     @PostMapping("/toggle")
     public Result<Boolean> toggleLike(
             @RequestParam("articleId") Long articleId,
-            @RequestHeader(value = "User-Id", required = true) Long userId) {
+            @RequestHeader(value = "User-Id", required = false) Long userId) {
         // 参数校验
-        if (articleId == null || userId == null || userId <= 0) {
-            return Result.error("文章ID或用户ID无效");
+        if (articleId == null) {
+            return Result.error("文章ID无效");
+        }
+        if (userId == null || userId <= 0) {
+            return Result.error("未登录，无法点赞/取消点赞");
         }
 
         // 构建消息
@@ -53,17 +56,21 @@ public class ArticleLikeController {
     }
 
     /**
-     * 查询用户点赞状态（保持不变）
+     * 查询用户点赞状态
      */
     @GetMapping("/status")
     public Result<Boolean> getLikeStatus(
             @RequestParam("articleId") Long articleId,
-            @RequestHeader(value = "User-Id", required = true) Long userId) {
+            @RequestHeader(value = "User-Id", required = false) Long userId) {
+        if (userId == null || userId <= 0) {
+            // 未登录默认未点赞，避免400
+            return Result.success(false, "未登录，未点赞");
+        }
         return articleLikeService.isLiked(articleId, userId);
     }
 
     /**
-     * 查询文章点赞数（保持不变）
+     * 查询文章点赞数
      */
     @GetMapping("/count")
     public Result<Integer> getLikeCount(@RequestParam("articleId") Long articleId) {

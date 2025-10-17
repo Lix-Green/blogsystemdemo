@@ -6,13 +6,13 @@ import com.example.blogsystemdemo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 @RestController
 @RequestMapping("/articles")
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
-    // 模拟当前登录用户ID，实际项目中应从认证信息中获取
-    private Long currentUserId = 1L;
 
     @GetMapping()
     public Result<?> listArticles(@RequestParam(defaultValue = "1") int pageNum,
@@ -21,30 +21,39 @@ public class ArticleController {
     }
 
     /**
-     * 创建文章
+     * 创建文章（需登录）
      */
     @PostMapping
     public Result<Long> createArticle(@RequestBody ArticleDTO articleDTO,
-                                      @RequestHeader(value = "User-Id", required = true) Long userId) {
+                                      @RequestHeader(value = "User-Id", required = false) Long userId) {
+        if (userId == null || userId <= 0) {
+            return Result.error("未登录，无法创建文章");
+        }
         return articleService.createArticle(articleDTO, userId);
     }
 
     /**
-     * 更新文章
+     * 更新文章（需登录）
      */
     @PutMapping("/{id}")
     public Result<Boolean> updateArticle(@PathVariable Long id,
                                          @RequestBody ArticleDTO articleDTO,
-                                         @RequestHeader(value = "User-Id", required = true) Long userId) {
+                                         @RequestHeader(value = "User-Id", required = false) Long userId) {
+        if (userId == null || userId <= 0) {
+            return Result.error("未登录，无法修改文章");
+        }
         return articleService.updateArticle(id, articleDTO, userId);
     }
 
     /**
-     * 删除文章
+     * 删除文章（需登录）
      */
     @DeleteMapping("/{id}")
     public Result<Boolean> deleteArticle(@PathVariable Long id,
-                                         @RequestHeader(value = "User-Id", required = true) Long userId) {
+                                         @RequestHeader(value = "User-Id", required = false) Long userId) {
+        if (userId == null || userId <= 0) {
+            return Result.error("未登录，无法删除文章");
+        }
         return articleService.deleteArticleById(id, userId);
     }
 
@@ -58,27 +67,25 @@ public class ArticleController {
 
     /**
      * 热门文章查询接口（公开接口，无需登录）
-     *
-     * @param pageNum  当前页码（默认1）
-     * @param pageSize 每页条数（默认10，可根据前端需求调整，如热门文章只显示5条则设为5）
-     * @return 热门文章分页结果
      */
     @GetMapping("/hot")
     public Result<?> getHotArticles(
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
-        // 直接调用业务层方法，返回结果
         return articleService.getHotArticles(pageNum, pageSize);
     }
 
     /**
-     * 获取当前登录用户的文章列表（需登录）
+     * 获取当前登录用户的文章列表（未登录返回空列表）
      */
     @GetMapping("/my")
     public Result<?> getMyArticles(
-            @RequestHeader(value = "User-Id", required = true) Long userId,
+            @RequestHeader(value = "User-Id", required = false) Long userId,
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
+        if (userId == null || userId <= 0) {
+            return Result.success(Collections.emptyList(), "未登录，无个人文章");
+        }
         return articleService.getMyArticles(userId, pageNum, pageSize);
     }
 }

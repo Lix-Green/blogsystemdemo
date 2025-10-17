@@ -21,13 +21,12 @@ public class MessageController {
     }
 
     @PostMapping
-    public Result<?> addMessage(@RequestBody Message message) {
+    public Result<?> addMessage(@RequestBody Message message, @RequestHeader("User-Id") Long userId) {
         if (message.getContent() == null || message.getContent().trim().isEmpty()) {
             return Result.error("content不能为空");
         }
-        if (message.getCreateTime() == null) {
-            message.setCreateTime(java.time.LocalDateTime.now());
-        }
+        message.setUserId(userId);
+        message.setCreateTime(java.time.LocalDateTime.now());
         int result = messageService.addMessage(message);
         return result > 0 ? Result.success(null, "留言成功") : Result.error("留言失败");
     }

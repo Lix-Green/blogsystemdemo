@@ -27,10 +27,13 @@ public class ArticleCollectionController {
     @PostMapping("/toggle")
     public Result<Boolean> toggleCollection(
             @RequestParam("articleId") Long articleId,
-            @RequestHeader(value = "User-Id", required = true) Long userId) {
+            @RequestHeader(value = "User-Id", required = false) Long userId) {
         // 参数校验
-        if (articleId == null || userId == null || userId <= 0) {
-            return Result.error("文章ID或用户ID无效");
+        if (articleId == null) {
+            return Result.error("文章ID无效");
+        }
+        if (userId == null || userId <= 0) {
+            return Result.error("未登录，无法收藏/取消收藏");
         }
 
         // 构建消息
@@ -54,12 +57,16 @@ public class ArticleCollectionController {
     }
 
     /**
-     * 查询用户收藏状态（保持不变）
+     * 查询用户收藏状态
      */
     @GetMapping("/status")
     public Result<Boolean> getCollectionStatus(
             @RequestParam("articleId") Long articleId,
-            @RequestHeader(value = "User-Id", required = true) Long userId) {
+            @RequestHeader(value = "User-Id", required = false) Long userId) {
+        if (userId == null || userId <= 0) {
+            // 未登录默认未收藏，避免400
+            return Result.success(false, "未登录，未收藏");
+        }
         return articleCollectionService.isCollected(articleId, userId);
     }
 
@@ -72,10 +79,14 @@ public class ArticleCollectionController {
     }
 
     /**
-     * 查询用户收藏列表（保持不变）
+     * 查询用户收藏列表（未登录返回空列表，避免400）
      */
     @GetMapping("/user/list")
-    public Result<List<Long>> getUserCollectedArticles(@RequestHeader(value = "User-Id", required = true) Long userId) {
+    public Result<List<Long>> getUserCollectedArticles(
+            @RequestHeader(value = "User-Id", required = false) Long userId) {
+        if (userId == null || userId <= 0) {
+            return Result.success(java.util.Collections.emptyList(), "未登录，返回空收藏");
+        }
         return articleCollectionService.listCollectedArticleIds(userId);
     }
 }
