@@ -12,9 +12,6 @@
         暂无留言，快来发表你的看法吧！
       </div>
       <div v-for="(msg, idx) in messages" :key="idx" class="message-item">
-        <div class="message-avatar">
-          <el-avatar :size="32" :src="msg.avatar"/>
-        </div>
         <div class="message-content">
           <div class="message-meta">
             <span class="message-user">{{ msg.nickname }}</span>
