@@ -87,15 +87,19 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Result<Boolean> updateArticle(Long id, ArticleDTO articleDTO, Long userId) {
-
+        // 查询原始文章，获取 authorId
+        Article original = articleMapper.getArticleById(id);
+        if (original == null) {
+            return Result.error("文章不存在");
+        }
+        // 权限校验：userId=1为管理员，或userId=authorId才允许
+        if (!(userId != null && (userId == 1L || userId.equals(original.getAuthorId())))) {
+            return Result.error("没有权限修改此文章");
+        }
         Article article = new Article();
         BeanUtils.copyProperties(articleDTO, article);
         article.setId(id);
-        // 验证权限，只有作者才能修改
-//        if (!article.getAuthorId().equals(userId)) {
-//            return Result.error("没有权限修改此文章");
-//        }
-        article.setAuthorId(userId); // 必须设置 authorId，防止为 null
+        article.setAuthorId(original.getAuthorId()); // 保持原有作者ID
         int rows = articleMapper.updateArticle(article);
         return Result.success(rows > 0);
     }
