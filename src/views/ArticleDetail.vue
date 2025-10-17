@@ -46,7 +46,7 @@
           </div>
 
           <div class="article-cover" v-if="article.coverImage">
-            <el-image :src="article.coverImage" fit="cover"/>
+            <el-image :src="article.coverImage" fit="scale-down"/>
           </div>
 
           <div class="article-summary">
@@ -353,8 +353,6 @@ watch(() => route.params.id, () => {
 }
 
 .article-cover {
-  width: 100%;
-  height: 400px;
   margin-bottom: 30px;
   overflow: hidden;
   border-radius: 4px;

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 文章点赞 Mapper，定���对文章点赞表的数据库操作方法。
+ * 文章点赞 Mapper，定义对文章点赞表的数据库操作方法。
  */
 @Mapper
 public interface ArticleLikeMapper {

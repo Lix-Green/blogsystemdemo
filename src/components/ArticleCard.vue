@@ -253,6 +253,10 @@ onMounted(() => {
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  width: 100%;
+  height: 340px; /* 固定卡片高度，可根据实际页面调整 */
+  display: flex;
+  flex-direction: column;
 }
 
 .article-card:hover {
@@ -262,8 +266,9 @@ onMounted(() => {
 
 .card-cover {
   width: 100%;
-  height: 180px;
+  height: 200px; /* 固定封面高度 */
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .card-cover el-image,
@@ -275,7 +280,11 @@ onMounted(() => {
 }
 
 .card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 16px;
+  min-height: 0;
 }
 
 .card-title {
@@ -306,6 +315,7 @@ onMounted(() => {
   gap: 12px;
   font-size: 12px;
   color: #888;
+  margin-top: auto; /* 保证元信息在底部 */
 }
 
 .meta-item {
