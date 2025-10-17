@@ -1,3 +1,4 @@
+// 处理文章点赞相关请求的控制器。
 package com.example.blogsystemdemo.controller;
 
 import com.example.blogsystemdemo.constant.RabbitMQConstants;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * 文章点赞控制器，负责处理文章点赞相关的 HTTP 请求。
+ */
 @RestController
 @RequestMapping("/article/like")
 public class ArticleLikeController {

@@ -1,3 +1,4 @@
+// RabbitMQ 操作消息实体类，封装异步操作的消息内容。
 package com.example.blogsystemdemo.entity;
 
 import com.example.blogsystemdemo.enums.OperationType;
@@ -7,7 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 操作消息
+ * RabbitMQ 操作消息实体类，描述点赞、收藏等操作的消息结构。
  */
 @Data
 public class OperateMessage implements Serializable {

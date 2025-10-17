@@ -1,3 +1,8 @@
+<!--
+  ArticleForm 文章表单组件
+  用于文章的发布和编辑，包含标题、摘要、封面、内容、状态等字段。
+  支持表单校验、图片预览、富文本编辑、提交与重置。
+-->
 <template>
   <el-form
       ref="articleFormRef"
@@ -63,24 +68,36 @@
 </template>
 
 <script setup>
+// 引入 Vue 相关 API 和第三方组件
 import {ref, reactive, watch, defineProps, defineEmits} from 'vue';
 import {ElMessage, ElImage} from 'element-plus';
 import {QuillEditor} from '@vueup/vue-quill';
 
-// 1. 定义Props和Emits（规范参数传递）
+/**
+ * Props：接收父组件传递的文章数据
+ * @property {Object} article 编辑时传入已有文章数据，新增时为空对象
+ */
 const props = defineProps({
   article: {
     type: Object,
     default: () => ({}) // 编辑时传入已有文章数据，新增时为空对象
   }
 });
-const emit = defineEmits(['submit', 'cancel']); // submit：提交事件，cancel：重置事件
 
-// 2. 表单核心状态
+/**
+ * Emits：定义组件事件
+ * @event submit 提交表单
+ * @event cancel 重置表单
+ */
+const emit = defineEmits(['submit', 'cancel']);
+
+// 表单引用与加载状态
 const articleFormRef = ref(null); // 表单引用
 const submitLoading = ref(false); // 提交加载状态（防止重复提交）
 
-// 3. 表单数据（默认状态为“发布”，确保status为数字类型）
+/**
+ * 表单数据
+ */
 const form = reactive({
   title: '',
   content: '',
@@ -89,7 +106,9 @@ const form = reactive({
   status: 1 // 0：草稿，1：发布（与后端状态定义保持一致）
 });
 
-// 4. 表单验证规则（增强合法性校验）
+/**
+ * 表单校验规则
+ */
 const rules = {
   title: [
     {required: true, message: '请输入文章标题', trigger: 'blur'},
@@ -113,7 +132,9 @@ const rules = {
   ]
 };
 
-// 5. 监听Props变化（编辑时自动填充表单）
+/**
+ * 监听 props.article 变化，编辑时自动填充表单
+ */
 watch(
     () => props.article,
     (newArticle) => {
@@ -131,13 +152,17 @@ watch(
     {immediate: true} // 组件初始化时立即执行（编辑场景自动填充）
 );
 
-// 6. 图片加载错误处理（优化用户体验）
+/**
+ * 图片加载错误处理，加载失败时显示默认图片
+ */
 const handleImageError = (e) => {
   // 图片加载失败时显示默认图（需提前在assets目录放置默认图片）
   e.target.src = '/src/assets/images/default-cover.jpg';
 };
 
-// 7. 表单提交逻辑（结合加载状态和防重复提交）
+/**
+ * 表单提交逻辑，校验并提交数据
+ */
 const handleSubmit = async () => {
   try {
     // 7.1 表单验证
@@ -168,7 +193,9 @@ const handleSubmit = async () => {
   }
 };
 
-// 8. 表单重置逻辑（重置为初始状态或编辑前状态）
+/**
+ * 表单重置逻辑，恢复初始状态
+ */
 const handleReset = () => {
   if (articleFormRef.value) {
     articleFormRef.value.resetFields();

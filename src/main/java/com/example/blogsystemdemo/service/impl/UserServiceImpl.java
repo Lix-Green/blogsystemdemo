@@ -1,5 +1,9 @@
 package com.example.blogsystemdemo.service.impl;
 
+/**
+ * 用户 Service 实现类，实现用户相关的业务逻辑。
+ */
+
 import com.example.blogsystemdemo.dto.Result;
 import com.example.blogsystemdemo.dto.UserDTO;
 import com.example.blogsystemdemo.entity.User;
@@ -43,7 +47,7 @@ public class UserServiceImpl implements UserService {
         if (existingUser == null) {
             return Result.error("用户不存在");
         }
-        // 防止更新用户名（如果需要可以修改此逻辑）
+        // ���止更新用户名（如果需要可以修改此逻辑）
         user.setUsername(existingUser.getUsername());
 
         int rows = userMapper.updateUser(user);
@@ -110,4 +114,3 @@ public class UserServiceImpl implements UserService {
         return Result.error("注册失败");
     }
 }
-

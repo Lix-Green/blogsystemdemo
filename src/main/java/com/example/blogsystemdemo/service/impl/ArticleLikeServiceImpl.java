@@ -1,5 +1,9 @@
 package com.example.blogsystemdemo.service.impl;
 
+/**
+ * 文章点赞 Service 实现类，实现点赞相关的业务逻辑。
+ */
+
 import com.example.blogsystemdemo.dto.Result;
 import com.example.blogsystemdemo.entity.ArticleLike;
 import com.example.blogsystemdemo.mapper.ArticleLikeMapper;
@@ -32,7 +36,7 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
                 // 2.1 已点赞：取消点赞（删除记录 + 点赞数-1）
                 int deleteRows = articleLikeMapper.deleteLike(articleId, userId);
                 if (deleteRows <= 0) {
-                    return Result.error("取消点赞失败，未找到点赞记录");
+                    return Result.error("取消点赞失败��未找到点赞记录");
                 }
                 articleMapper.updateLikeCount(articleId, -1);
                 return Result.success(false); // 返回当前状态：未点赞

@@ -1,3 +1,7 @@
+<!--
+  Home 首页文章广场
+  展示最新和热门文章，支持搜索、筛选和统计。
+-->
 <template>
   <div class="home-container">
     <!-- 页面标题 -->
@@ -187,6 +191,11 @@ import {Search, Refresh, View} from '@element-plus/icons-vue';
 
 const router = useRouter();
 
+/**
+ * searchForm 搜索表单数据
+ * searchLoading 搜索加载状态
+ * filteredArticles 搜索结果
+ */
 // 搜索相关状态
 const searchForm = ref({
   keyword: ''
@@ -194,14 +203,25 @@ const searchForm = ref({
 const searchLoading = ref(false);
 const showSearchResults = ref(false);
 
+/**
+ * articles 最新文章列表
+ * loading 最新文章加载状态
+ */
 // 最新文章状态
 const articles = ref([]);
 const loading = ref(true);
 
+/**
+ * hotArticles 热门文章列表
+ * hotLoading 热门文章加载状态
+ */
 // 热门文章状态
 const hotArticles = ref([]);
 const hotLoading = ref(true);
 
+/**
+ * 搜索文章
+ */
 // 计算属性：显示的文章列表
 const displayArticles = computed(() => {
   return showSearchResults.value ? filteredArticles.value : articles.value;
@@ -256,6 +276,9 @@ const handleSearch = async () => {
   }
 };
 
+/**
+ * 清空搜索
+ */
 // 清除搜索
 const handleClearSearch = () => {
   searchForm.value.keyword = '';
@@ -263,6 +286,9 @@ const handleClearSearch = () => {
   ElMessage.info('已显示全部文章');
 };
 
+/**
+ * 获取最新文章
+ */
 // 获取最新文章
 const fetchLatestArticles = async () => {
   try {
@@ -284,6 +310,9 @@ const fetchLatestArticles = async () => {
   }
 };
 
+/**
+ * 获取热门文章
+ */
 // 获取热门文章
 const fetchHotArticles = async () => {
   try {
@@ -332,7 +361,7 @@ const handleArticleClick = (articleId) => {
   }
 };
 
-// 页面加载初始化
+// 页面加载时获取文章数据
 onMounted(() => {
   fetchLatestArticles();
   fetchHotArticles();

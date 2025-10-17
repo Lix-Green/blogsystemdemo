@@ -1,3 +1,4 @@
+// 处理留言相关请求的控制器。
 package com.example.blogsystemdemo.controller;
 
 import com.example.blogsystemdemo.dto.Result;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 留言控制器，负责处理留言板相关的 HTTP 请求。
+ */
 @RestController
 @RequestMapping("/messages")
 public class MessageController {

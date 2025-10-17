@@ -1,5 +1,11 @@
 package com.example.blogsystemdemo.service.impl;
 
+/**
+ * 文章 Service 实现类，实现文章相关的业务逻辑。
+ * 包含文章的创建、更新、删除、查询等操作。
+ * 通过 Redis 实现文章浏览量的实时更新。
+ */
+
 import com.example.blogsystemdemo.dto.ArticleDTO;
 import com.example.blogsystemdemo.dto.Result;
 import com.example.blogsystemdemo.entity.Article;

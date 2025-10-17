@@ -2,6 +2,9 @@ package com.example.blogsystemdemo.service;
 
 import com.example.blogsystemdemo.dto.Result;
 
+/**
+ * 文章点赞 Service，定义点赞相关的业务方法。
+ */
 public interface ArticleLikeService {
     /**
      * 点赞/取消点赞（toggle切换）

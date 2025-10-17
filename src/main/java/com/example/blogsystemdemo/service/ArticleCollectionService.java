@@ -1,3 +1,4 @@
+// 文章收藏相关业务接口，定义收藏相关的服务方法。
 package com.example.blogsystemdemo.service;
 
 import com.example.blogsystemdemo.dto.Result;
@@ -5,8 +6,7 @@ import com.example.blogsystemdemo.dto.Result;
 import java.util.List;
 
 /**
- * 文章收藏服务接口
- * 定义收藏/取消收藏、状态查询、数量统计等功能
+ * 文章收藏 Service，定义收藏相关的业务方法。
  */
 public interface ArticleCollectionService {
 

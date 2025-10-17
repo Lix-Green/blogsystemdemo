@@ -1,3 +1,4 @@
+// 文章收藏相关业务实现类，实现收藏相关的服务方法。
 package com.example.blogsystemdemo.service.impl;
 
 import com.example.blogsystemdemo.dto.Result;
@@ -9,8 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 文章收藏服务实现类
- * 实现收藏相关业务逻辑，确保多用户操作隔离和数据一致性
+ * 文章收藏 Service 实现类，实现收藏相关的业务逻辑。
  */
 @Service
 public class ArticleCollectionServiceImpl implements ArticleCollectionService {

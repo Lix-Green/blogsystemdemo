@@ -1,5 +1,9 @@
 package com.example.blogsystemdemo.service;
 
+/**
+ * 留言 Service，定义留言相关的业务方法。
+ */
+
 import com.example.blogsystemdemo.entity.Message;
 import com.example.blogsystemdemo.mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;

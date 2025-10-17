@@ -1,10 +1,19 @@
+<!--
+  HelloWorld 演示组件
+  用于展示欢迎信息和简单计数器交互，适合新手学习 Vue 组件结构。
+-->
 <script setup>
 import {ref} from 'vue'
 
+/**
+ * Props：接收父组件传递的欢迎信息
+ * @property {String} msg 欢迎信息
+ */
 defineProps({
   msg: String,
 })
 
+// 计数器状态
 const count = ref(0)
 </script>
 

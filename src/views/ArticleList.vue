@@ -1,3 +1,7 @@
+<!--
+  ArticleList 文章列表页面
+  展示所有文章，支持新增、编辑、删除等操作。
+-->
 <template>
   <div class="article-list-container">
     <div class="page-header">
@@ -78,6 +82,10 @@ import {ElMessage, ElMessageBox} from 'element-plus';
 import {getMyArticles, deleteArticle} from '../api/article';
 import {Plus} from '@element-plus/icons-vue';
 
+/**
+ * articles 文章列表数据
+ * loading 加载状态
+ */
 // 文章列表数据
 const articles = ref([]);
 // 加载状态
@@ -87,6 +95,9 @@ const pageNum = ref(1);
 const pageSize = ref(10);
 const total = ref(0);
 
+/**
+ * 获取文章列表
+ */
 // 获取文章列表
 const fetchArticles = async () => {
   try {
@@ -121,6 +132,9 @@ const fetchArticles = async () => {
   }
 };
 
+/**
+ * 删除文章
+ */
 // 删除文章
 const handleDelete = async (id) => {
   ElMessageBox.confirm(
@@ -146,17 +160,32 @@ const handleDelete = async (id) => {
   });
 };
 
+/**
+ * 格式化标题，支持高亮或HTML展示
+ * @param {Object} row 文章数据
+ * @returns {string}
+ */
 // 格式化标题（添加链接）
 const formatTitle = (row) => {
   return `<a href="#/articles/${row.id}" style="color: #409eff;">${row.title}</a>`;
 };
 
+/**
+ * 格式化时间
+ * @param {string} time 时间字符串
+ * @returns {string}
+ */
 // 格式化时间
 const formatTime = (row) => {
   if (!row.createdTime) return '';
   return new Date(row.createdTime).toLocaleString();
 };
 
+/**
+ * 格式化状态
+ * @param {number} status 状态码
+ * @returns {string}
+ */
 // 格式化状态
 const formatStatus = (row) => {
   return row.status === 1 ? '已发布' : row.status === 0 ? '草稿' : '未知';

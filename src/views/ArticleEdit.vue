@@ -1,3 +1,7 @@
+<!--
+  ArticleEdit 文章编辑/新增页面
+  用于编辑已有文章或新增新文章，集成表单组件与数据交互。
+-->
 <template>
   <div class="article-edit-container">
     <el-row :gutter="20">
@@ -34,7 +38,9 @@ const article = ref({});
 // 加载状态
 const loading = ref(false);
 
-// 获取文章详情（编辑时）
+/**
+ * 获取文章详情（编辑时）
+ */
 const fetchArticleDetail = async () => {
   if (!id) return;
 
@@ -63,7 +69,10 @@ const fetchArticleDetail = async () => {
   }
 };
 
-// 处理表单提交（完全适配后端返回格式）
+/**
+ * 表单提交处理（新增或更新）
+ * @param {Object} formData 表单数据
+ */
 const handleFormSubmit = async (formData) => {
   try {
     loading.value = true;
@@ -118,11 +127,9 @@ const handleFormSubmit = async (formData) => {
   }
 };
 
-// 页面加载时获取文章详情（编辑时）
+// 页面加载时获取详情（编辑场景）
 onMounted(() => {
-  if (id) {
-    fetchArticleDetail();
-  }
+  if (id) fetchArticleDetail();
 });
 </script>
 

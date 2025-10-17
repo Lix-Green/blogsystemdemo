@@ -1,3 +1,4 @@
+// Spring Boot 应用启动类，包含 main 方法，是后端服务的入口。
 package com.example.blogsystemdemo;
 
 import org.springframework.boot.SpringApplication;
@@ -11,6 +12,11 @@ import org.mybatis.spring.annotation.MapperScan;
 @MapperScan("com.example.blogsystemdemo.mapper")
 public class blogsystemdemoApplication {
 
+    /**
+     * 项目启动入口方法。
+     *
+     * @param args 命令行参数
+     */
     public static void main(String[] args) {
         SpringApplication.run(blogsystemdemoApplication.class, args);
     }

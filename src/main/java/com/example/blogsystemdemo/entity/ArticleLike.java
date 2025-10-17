@@ -1,9 +1,13 @@
+// 文章点赞实体类，对应数据库中的点赞表，封装点赞相关字段。
 package com.example.blogsystemdemo.entity;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * 文章点赞实体类，描述用户点赞文章的关系。
+ */
 @Data
 public class ArticleLike {
     private Long id;          // 主键ID

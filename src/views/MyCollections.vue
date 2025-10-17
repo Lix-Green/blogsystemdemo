@@ -1,3 +1,7 @@
+<!--
+  MyCollections 我的收藏页面
+  展示当前用户收藏的文章列表，支持分页和刷新。
+-->
 <template>
   <div class="collections-page" v-loading="loading">
     <div class="header">
@@ -32,11 +36,22 @@ import {ElMessage} from 'element-plus';
 import {getMyCollectedArticleIds, getArticleDetail} from '../api/article';
 import ArticleCard from '../components/ArticleCard.vue';
 
+/**
+ * articles 收藏文章列表
+ * loading 加载状态
+ * total 收藏总数
+ * pageNum 当前页码
+ * pageSize 每页数量
+ */
 const loading = ref(false);
 const articles = ref([]);
 const total = ref(0);
 const pageNum = ref(1);
 const pageSize = ref(10);
+
+/**
+ * 获取收藏文章数据
+ */
 const fetchData = async () => {
   try {
     loading.value = true;
@@ -68,12 +83,27 @@ const fetchData = async () => {
     loading.value = false;
   }
 };
-const onPageChange = (p) => {
-  pageNum.value = p;
+
+/**
+ * 刷新收藏列表
+ */
+const refresh = () => {
   fetchData();
 };
-const refresh = () => fetchData();
-onMounted(fetchData);
+
+/**
+ * 分页切换
+ * @param {number} page 新页码
+ */
+const onPageChange = (page) => {
+  pageNum.value = page;
+  fetchData();
+};
+
+// 页面加载时获取收藏数据
+onMounted(() => {
+  fetchData();
+});
 </script>
 
 <style scoped>
@@ -91,7 +121,7 @@ onMounted(fetchData);
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 16px;
 }
 

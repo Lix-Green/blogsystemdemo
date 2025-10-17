@@ -1,3 +1,7 @@
+<!--
+  ArticleDetail 文章详情页
+  展示文章内容、元信息、点赞/收藏操作、评论区，支持编辑跳转。
+-->
 <template>
   <div class="article-detail-container" v-loading="loading">
     <el-row :gutter="20">
@@ -91,8 +95,9 @@ const route = useRoute();
 const router = useRouter();
 const articleId = route.params.id;
 
-// 状态管理
+// 文章详情数据
 const article = ref({});
+// 加载状态
 const loading = ref(true);
 // 点赞相关状态
 const isLiked = ref(false); // 是否已点赞
@@ -101,7 +106,9 @@ const likeLoading = ref(false); // 点赞加载中
 const isCollected = ref(false); // 是否已收藏
 const collectionLoading = ref(false); // 收藏加载中
 
-// 获取文章详情
+/**
+ * 获取文章详情
+ */
 const fetchArticleDetail = async () => {
   try {
     loading.value = true;
@@ -126,7 +133,9 @@ const fetchArticleDetail = async () => {
   }
 };
 
-// 查询点赞状态
+/**
+ * 查询点赞状态
+ */
 const fetchLikeStatus = async () => {
   try {
     const res = await getArticleLikeStatus(articleId);
@@ -138,7 +147,23 @@ const fetchLikeStatus = async () => {
   }
 };
 
-// 切换点赞/取消点赞
+/**
+ * 查询收藏状态
+ */
+const fetchCollectionStatus = async () => {
+  try {
+    const res = await getArticleCollectionStatus(articleId);
+    if (res.code === 200) {
+      isCollected.value = res.data;
+    }
+  } catch (error) {
+    console.error('查询收藏状态失败', error);
+  }
+};
+
+/**
+ * 点赞/取消点赞操作
+ */
 const handleToggleLike = async () => {
   if (likeLoading.value) return;
   likeLoading.value = true;
@@ -181,19 +206,9 @@ const handleToggleLike = async () => {
   }
 };
 
-// 查询收藏状态
-const fetchCollectionStatus = async () => {
-  try {
-    const res = await getArticleCollectionStatus(articleId);
-    if (res.code === 200) {
-      isCollected.value = res.data;
-    }
-  } catch (error) {
-    console.error('查询收藏状态失败', error);
-  }
-};
-
-// 切换收藏/取消收藏
+/**
+ * 收藏/取消收藏操作
+ */
 const handleToggleCollection = async () => {
   if (collectionLoading.value) return;
   collectionLoading.value = true;
@@ -236,28 +251,34 @@ const handleToggleCollection = async () => {
   }
 };
 
-// 格式化时间
+/**
+ * 格式化时间
+ * @param {string} timeStr 时间字符串
+ * @returns {string}
+ */
 const formatTime = (timeStr) => {
   if (!timeStr) return '';
   return new Date(timeStr).toLocaleString();
 };
 
-// 格式化数字（1000→1k）
+/**
+ * 格式化数字
+ * @param {number} count 数值
+ * @returns {string|number}
+ */
 const formatCount = (count) => {
   if (count === undefined || count === null) return 0;
   return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count;
 };
 
-// 页面加载时初始化
+// 页面加载时获取详情
 onMounted(() => {
   fetchArticleDetail();
 });
 
-// 监听文章ID变化（路由参数变化时重新加载）
-watch(() => route.params.id, (newId) => {
-  if (newId && newId !== articleId) {
-    fetchArticleDetail();
-  }
+// 监听路由参数变化，自动刷新详情
+watch(() => route.params.id, () => {
+  fetchArticleDetail();
 });
 </script>
 

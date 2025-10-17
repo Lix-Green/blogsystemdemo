@@ -1,3 +1,7 @@
+<!--
+  Profile 个人信息页面
+  展示和编辑当前用户信息，支持头像更换和表单校验。
+-->
 <template>
   <div class="profile-container" v-loading="loading">
     <div class="profile-header">
@@ -87,6 +91,12 @@ const router = useRouter();
 const loading = ref(true);
 const userFormRef = ref(null);
 
+/**
+ * userForm 用户信息表单数据
+ * userRules 表单校验规则
+ * userFormRef 表单引用
+ * loading 加载状态
+ */
 // 用户表单数据
 const userForm = reactive({
   id: '',
@@ -134,6 +144,19 @@ const initUserInfo = () => {
   }
 };
 
+/**
+ * 更换头像方法
+ */
+// 更换头像
+const handleAvatarChange = () => {
+  const randomId = Math.floor(Math.random() * 100);
+  userForm.avatar = `https://picsum.photos/id/${randomId}/200/200`;
+  ElMessage.success('头像已更换，点击保存修改生效');
+};
+
+/**
+ * 表单提交方法
+ */
 // 处理更新用户信息
 const handleUpdate = async () => {
   try {
@@ -167,6 +190,17 @@ const handleLogout = () => {
   router.push('/login');
 };
 
+/**
+ * 格式化时间
+ * @param {string} time 时间字符串
+ * @returns {string}
+ */
+// 格式化时间
+const formatTime = (timeStr) => {
+  if (!timeStr) return '未知';
+  return new Date(timeStr).toLocaleString();
+};
+
 // 删除账号
 const handleDeleteAccount = async () => {
   try {
@@ -194,19 +228,6 @@ const handleDeleteAccount = async () => {
       ElMessage.error('删除失败，请稍后重试');
     }
   }
-};
-
-// 更换头像
-const handleAvatarChange = () => {
-  const randomId = Math.floor(Math.random() * 100);
-  userForm.avatar = `https://picsum.photos/id/${randomId}/200/200`;
-  ElMessage.success('头像已更换，点击保存修改生效');
-};
-
-// 格式化时间
-const formatTime = (timeStr) => {
-  if (!timeStr) return '未知';
-  return new Date(timeStr).toLocaleString();
 };
 
 // 页面加载时初始化用户信息

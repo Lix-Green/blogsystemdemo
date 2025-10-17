@@ -1,9 +1,13 @@
+// 文章点赞相关数据库操作的 MyBatis 映射接口。
 package com.example.blogsystemdemo.mapper;
 
 import com.example.blogsystemdemo.entity.ArticleLike;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+/**
+ * 文章点赞 Mapper，定���对文章点赞表的数据库操作方法。
+ */
 @Mapper
 public interface ArticleLikeMapper {
     /**

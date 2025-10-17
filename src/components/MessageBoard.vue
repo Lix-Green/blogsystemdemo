@@ -1,8 +1,11 @@
+<!--
+  MessageBoard 留言板组件
+  用于展示留言列表、发送新留言，支持登录判断和时间格式化。
+-->
 <template>
   <div class="message-board-card">
     <div class="section-header">
       <span class="section-title">留言板</span>
-      <span class="section-badge">欢迎留言交流</span>
     </div>
     <div class="message-list">
       <div v-if="messages.length === 0" class="no-message">
@@ -46,11 +49,19 @@ import {ElMessage} from 'element-plus';
 import {getMessages, addMessage} from '../api/message';
 import {useUserStore} from '../store/user';
 
+// 留言输入框内容
 const input = ref('');
+// 留言列表数据
 const messages = ref([]);
+// 加载状态
 const loading = ref(false);
+
+// 用户信息与登录状态
 const userStore = useUserStore();
 
+/**
+ * 获取留言列表
+ */
 async function fetchMessages() {
   loading.value = true;
   try {
@@ -63,6 +74,9 @@ async function fetchMessages() {
   }
 }
 
+/**
+ * 发送留言
+ */
 async function handleSend() {
   if (!userStore.isLogin) {
     ElMessage.warning('请先登录后再留言');
@@ -82,11 +96,17 @@ async function handleSend() {
   }
 }
 
+/**
+ * 时间格式化工具
+ * @param {string|number} ts 时间戳
+ * @returns {string}
+ */
 function formatTime(ts) {
   const d = new Date(ts);
   return d.toLocaleString();
 }
 
+// 组件挂载时加载留言列表
 onMounted(fetchMessages);
 </script>
 
@@ -111,16 +131,7 @@ onMounted(fetchMessages);
   font-size: 18px;
   font-weight: 600;
   color: #333;
-}
-
-.section-badge {
-  font-size: 12px;
-  color: #fff;
-  background-color: #409eff;
-  padding: 2px 8px;
-  border-radius: 12px;
-  margin-left: 10px;
-  letter-spacing: 0.2px;
+  padding: ;
 }
 
 .message-list {

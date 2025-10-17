@@ -2,6 +2,10 @@ package com.example.blogsystemdemo.entity;
 
 import java.time.LocalDateTime;
 
+/**
+ * 留言实体类，描述留言板的留言信息。
+ * 对应数据库中的留言表，封装留言相关字段。
+ */
 public class Message {
     private Long id;
     private String content;

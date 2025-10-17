@@ -1,3 +1,6 @@
+/*
+ * API 统一出口文件，集中导出各模块接口，便于统一管理和调用。
+ */
 import axios from 'axios';
 import {ElMessage} from 'element-plus';
 
@@ -9,7 +12,8 @@ const request = axios.create({
         'Content-Type': 'application/json'
     }
 });
-// 请求拦截器
+
+// 请求拦截器：自动添加用户ID到请求头
 request.interceptors.request.use(
     (config) => {
         // 从localStorage获取用户信息
@@ -21,7 +25,8 @@ request.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 );
-// 响应拦截器
+
+// 响应拦截器：统一处理错误提示
 request.interceptors.response.use(
     (response) => response.data,
     (error) => {
@@ -29,4 +34,5 @@ request.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
 export default request;

@@ -1,3 +1,4 @@
+// RabbitMQ 相关配置类，负责声明交换机、队列、绑定关系等。
 package com.example.blogsystemdemo.config;
 
 import com.example.blogsystemdemo.constant.RabbitMQConstants;
@@ -6,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * RabbitMQ配置类
+ * RabbitMQ 配置类，声明交换机、队列、绑定等。
  */
 @Configuration
 public class RabbitMQConfig {

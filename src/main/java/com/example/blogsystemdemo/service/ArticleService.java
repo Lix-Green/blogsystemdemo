@@ -1,3 +1,6 @@
+/**
+ * 文章 Service，定义文章相关的业务方法。
+ */
 package com.example.blogsystemdemo.service;
 
 import com.example.blogsystemdemo.dto.ArticleDTO;

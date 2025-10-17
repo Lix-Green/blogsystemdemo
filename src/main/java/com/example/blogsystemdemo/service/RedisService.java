@@ -1,3 +1,6 @@
+/**
+ * Redis 相关业务接口，定义缓存相关的服务方法。
+ */
 package com.example.blogsystemdemo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,4 +132,3 @@ public class RedisService {
         }
     }
 }
-

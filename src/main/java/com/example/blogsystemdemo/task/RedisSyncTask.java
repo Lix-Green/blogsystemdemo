@@ -1,3 +1,4 @@
+// Redis 同步定时任务类，实现定时将 Redis 中的数据同步到数据库。
 package com.example.blogsystemdemo.task;
 
 import com.example.blogsystemdemo.mapper.ArticleMapper;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
+/**
+ * RedisSyncTask 定时任务类，负责将 Redis 中的文章浏览量、点赞数、收藏数等数据定时同步到数据库，防止数据丢失。
+ */
 @Component
 public class RedisSyncTask {
 

@@ -1,4 +1,9 @@
+// 通用结果封装类，用于统一接口返回结构。
 package com.example.blogsystemdemo.dto;
+
+/**
+ * 通用结果类，封装接口返回的状态码、消息、数据等。
+ */
 
 import lombok.Data;
 

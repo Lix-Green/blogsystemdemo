@@ -1,3 +1,4 @@
+// RabbitMQ 消费者实体类，处理消息队列中的操作消息。
 package com.example.blogsystemdemo.entity;
 
 
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 
 /**
- * 操作消息消费者
+ * RabbitMQ 操作消息消费者，处理点赞、收藏等异步操作。
  */
 @Component
 @Slf4j

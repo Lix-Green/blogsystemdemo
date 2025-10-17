@@ -1,3 +1,4 @@
+// Redis 相关配置类，配置 RedisTemplate、序列化等。
 package com.example.blogsystemdemo.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+/**
+ * Redis 配置类，配置 RedisTemplate、序列化等。
+ */
 @Configuration
 public class RedisConfig {
 

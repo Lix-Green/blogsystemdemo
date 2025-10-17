@@ -1,3 +1,4 @@
+// 处理评论相关请求的控制器。
 package com.example.blogsystemdemo.controller;
 
 import com.example.blogsystemdemo.dto.CommentDTO;
@@ -6,6 +7,9 @@ import com.example.blogsystemdemo.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 评论控制器，负责处理评论相关的 HTTP 请求。
+ */
 @RestController
 @RequestMapping("/comments")
 public class CommentController {

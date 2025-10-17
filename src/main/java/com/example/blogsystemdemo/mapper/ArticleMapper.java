@@ -1,5 +1,10 @@
 package com.example.blogsystemdemo.mapper;
 
+/**
+ * 文章 Mapper，定义对文章表的数据库操作方法。
+ * 文章相关数据库操作的 MyBatis 映射接口。
+ */
+
 import com.example.blogsystemdemo.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

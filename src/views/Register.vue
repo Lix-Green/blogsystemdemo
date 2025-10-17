@@ -1,3 +1,7 @@
+<!--
+  Register 用户注册页面
+  提供注册表单、校验、跳转登录等功能。
+-->
 <template>
   <div class="auth-container">
     <div class="auth-card">
@@ -99,6 +103,12 @@ const registerForm = reactive({
 // 表单引用
 const registerFormRef = ref(null);
 
+/**
+ * registerForm 注册表单数据
+ * registerRules 表单校验规则
+ * registerFormRef 表单引用
+ */
+
 // 验证规则 - 移除确认密码相关规则
 const registerRules = {
   username: [
@@ -123,6 +133,9 @@ const registerRules = {
 const router = useRouter();
 const userStore = useUserStore();
 
+/**
+ * 注册处理方法
+ */
 // 处理注册
 const handleRegister = async () => {
   try {

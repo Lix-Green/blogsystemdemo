@@ -1,3 +1,7 @@
+<!--
+  CommentList 评论列表组件
+  用于展示指定文章的评论列表，支持发表评论、删除评论、表单校验和登录判断。
+-->
 <template>
   <div class="comment-container">
     <h3>评论区</h3>
@@ -62,12 +66,16 @@
 </template>
 
 <script setup>
+// 引入 Vue 相关 API 和 Element Plus 组件
 import {ref, reactive, watch, onMounted} from 'vue';
 import {ElMessage, ElMessageBox} from 'element-plus';
 import {createComment, getArticleComments, deleteComment} from '../api/comment';
 import {useUserStore} from '../store/user';
 
-// 接收文章ID
+/**
+ * Props：接收父组件传递的文章ID
+ * @property {Number} articleId 文章ID，必填
+ */
 const props = defineProps({
   articleId: {
     type: Number,
@@ -78,14 +86,18 @@ const props = defineProps({
 // 获取用户store
 const userStore = useUserStore();
 
-// 评论表单
+/**
+ * 评论表单数据
+ */
 const commentForm = reactive({
   content: '',
   articleId: props.articleId,
   parentId: 0
 });
 
-// 提交评论
+/**
+ * 评论表单提交
+ */
 const handleCommentSubmit = async () => {
   if (!props.articleId) {
     ElMessage.error('文章ID不存在，无法评论');
@@ -122,7 +134,9 @@ const handleCommentSubmit = async () => {
   }
 };
 
-// 评论表单验证
+/**
+ * 评论表单校验规则
+ */
 const commentRules = {
   content: [
     {required: true, message: '请输入评论内容', trigger: 'blur'},
@@ -131,14 +145,18 @@ const commentRules = {
 };
 const commentFormRef = ref(null);
 
-// 评论列表
+/**
+ * 评论列表数据
+ */
 const comments = ref([]);
 // 加载状态
 const loading = ref(false);
 // 提交状态
 const submitting = ref(false);
 
-// 获取评论列表（适配后端接口格式）
+/**
+ * 获取评论列表
+ */
 const fetchComments = async () => {
   if (!props.articleId) return;
 
@@ -161,7 +179,9 @@ const fetchComments = async () => {
   }
 };
 
-// 删除评论
+/**
+ * 删除评论
+ */
 const handleDeleteComment = async (id) => {
   // 检查登录状态
   if (!userStore.isLogin) {
@@ -196,35 +216,24 @@ const handleDeleteComment = async (id) => {
   }
 };
 
-// 格式化时间
+/**
+ * 格式化时间
+ * @param {string} timeStr 时间字符串
+ * @returns {string}
+ */
 const formatTime = (timeStr) => {
   if (!timeStr) return '';
   const date = new Date(timeStr);
   return date.toLocaleString();
 };
 
-// 监听文章ID变化
-watch(
-    () => props.articleId,
-    (newVal) => {
-      if (newVal) {
-        commentForm.articleId = newVal;
-        fetchComments();
-      }
-    },
-    {immediate: true}
-);
-
-// 监听登录状态变化，刷新评论列表
-watch(
-    () => userStore.isLogin,
-    () => {
-      fetchComments();
-    }
-);
-
-// 组件挂载时获取评论
+// 组件挂载时加载评论列表
 onMounted(() => {
+  fetchComments();
+});
+
+// 监听文章ID变化，自动刷新评论列表
+watch(() => props.articleId, () => {
   fetchComments();
 });
 </script>

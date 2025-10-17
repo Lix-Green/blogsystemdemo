@@ -1,3 +1,4 @@
+// 文章收藏相关数据库操作的 MyBatis 映射接口。
 package com.example.blogsystemdemo.mapper;
 
 import com.example.blogsystemdemo.entity.ArticleCollection;
@@ -6,6 +7,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 文章收藏 Mapper，定义对文章收藏表的数据库操作方法。
+ */
 @Mapper
 public interface ArticleCollectionMapper {
     /**
@@ -50,4 +54,3 @@ public interface ArticleCollectionMapper {
      */
     List<Long> listCollectedArticleIds(@Param("userId") Long userId);
 }
-

@@ -1,3 +1,4 @@
+// 评论相关数据库操作的 MyBatis 映射接口。
 package com.example.blogsystemdemo.mapper;
 
 import com.example.blogsystemdemo.entity.Comment;
@@ -6,6 +7,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 评论 Mapper，定义对评论表的数据库操作方法。
+ */
 @Mapper
 public interface CommentMapper {
     // 创建评论

@@ -1,5 +1,9 @@
+// RabbitMQ 相关常量定义类，统一管理交换机、队列、路由键等常量。
 package com.example.blogsystemdemo.constant;
 
+/**
+ * RabbitMQ 常量类，定义交换机、队列、路由键等常量，便于统一管理和引用。
+ */
 public class RabbitMQConstants {
     // 交换机名称
     public static final String OPERATE_EXCHANGE = "blog.operate.exchange";

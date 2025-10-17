@@ -1,3 +1,4 @@
+// 配置 RabbitMQ 消息转换器（如 JSON 转换）。
 package com.example.blogsystemdemo.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * RabbitMQ消息转换器配置
+ * RabbitMQ 消息转换器配置类。
  */
 @Configuration
 public class RabbitMQMessageConverterConfig {

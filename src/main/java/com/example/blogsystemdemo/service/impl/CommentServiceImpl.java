@@ -1,3 +1,4 @@
+// 评论相关业务实现类，实现评论相关的服务方法。
 package com.example.blogsystemdemo.service.impl;
 
 import com.example.blogsystemdemo.dto.CommentDTO;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 评论 Service 实现类，实现评论相关的业务逻辑。
+ */
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired

@@ -1,3 +1,8 @@
+<!--
+  ArticleCard 文章卡片组件
+  用于展示单篇文章的封面、标题、摘要、作者、时间、阅读量、点赞数、收藏数等信息。
+  支持点击跳转详情、点赞、收藏等交互。
+-->
 <template>
   <div class="article-card" @click="handleCardClick">
     <!-- 文章封面 -->
@@ -49,11 +54,13 @@
 </template>
 
 <script setup>
+// 引入 Vue 相关 API
 import {ref, onMounted} from 'vue';
 import {useRouter} from 'vue-router';
 import {ElMessage} from 'element-plus';
 // 注意：这里不再单独导入任何图标，完全依赖全局注册
 
+// 引入文章相关 API
 import {
   getArticleDetail,
   getArticleLikeStatus,
@@ -62,7 +69,10 @@ import {
   toggleArticleCollection
 } from '../api/article';
 
-// 接收父组件传递的 article 数据
+/**
+ * 接收父组件传递的 article 数据
+ * @property {Object} article 文章对象，包含所有展示信息
+ */
 const props = defineProps({
   article: {
     type: Object,
@@ -75,12 +85,14 @@ const props = defineProps({
 const router = useRouter();
 
 // 卡片点赞/收藏状态
-const isCardLiked = ref(false);
-const isCardCollected = ref(false);
-const likeLoading = ref(false);
-const collectionLoading = ref(false);
+const isCardLiked = ref(false); // 是否已点赞
+const isCardCollected = ref(false); // 是否已收藏
+const likeLoading = ref(false); // 点赞操作加载状态
+const collectionLoading = ref(false); // 收藏操作加载状态
 
-// 初始化卡片点赞/收藏状态
+/**
+ * 初始化卡片点赞/收藏状态
+ */
 const initCardStatus = async () => {
   try {
     // 并行获取点赞和收藏状态
@@ -101,26 +113,38 @@ const initCardStatus = async () => {
   }
 };
 
-// 格式化时间：将时间字符串转为本地日期格式
+/**
+ * 格式化时间：将时间字符串转为本地日期格式
+ * @param {string} timeStr 时间字符串
+ * @returns {string}
+ */
 const formatTime = (timeStr) => {
   if (!timeStr) return '';
   return new Date(timeStr).toLocaleDateString();
 };
 
-// 格式化数字：超过 1000 显示为 k 单位（如 1200 → 1.2k）
+/**
+ * 格式化数字：超过 1000 显示为 k 单位（如 1200 → 1.2k）
+ * @param {number} count 数值
+ * @returns {string|number}
+ */
 const formatCount = (count) => {
   if (count === undefined || count === null) return 0;
   return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count;
 };
 
-// 点击卡片跳转至文章详情页
+/**
+ * 点击卡片跳转至文章详情页
+ */
 const handleCardClick = () => {
   if (props.article.id) {
     router.push(`/articles/${props.article.id}`);
   }
 };
 
-// 卡片点赞逻辑
+/**
+ * 卡片点赞逻辑
+ */
 const handleCardLike = async () => {
   if (likeLoading.value) return;
   likeLoading.value = true;
@@ -166,7 +190,9 @@ const handleCardLike = async () => {
   }
 };
 
-// 卡片收藏逻辑
+/**
+ * 卡片收藏逻辑
+ */
 const handleCardCollection = async () => {
   if (collectionLoading.value) return;
   collectionLoading.value = true;

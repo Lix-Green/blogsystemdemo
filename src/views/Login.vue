@@ -1,3 +1,7 @@
+<!--
+  Login 用户登录页面
+  提供登录表单、校验、跳转注册等功能。
+-->
 <template>
   <div class="auth-container">
     <div class="auth-card">
@@ -59,6 +63,11 @@ import {ref, reactive} from 'vue';
 import {useRouter} from 'vue-router';
 import {useUserStore} from '../store/user';
 
+/**
+ * loginForm 登录表单数据
+ * loginRules 表单校验规则
+ * loginFormRef 表单引用
+ */
 // 表单数据
 const loginForm = reactive({
   username: '',
@@ -78,6 +87,9 @@ const loginRules = {
 const loginFormRef = ref(null);
 const router = useRouter();
 const userStore = useUserStore();
+/**
+ * 登录处理方法
+ */
 // 处理登录
 const handleLogin = async () => {
   try {

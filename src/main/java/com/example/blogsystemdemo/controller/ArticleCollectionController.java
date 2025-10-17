@@ -1,3 +1,4 @@
+// 处理文章收藏相关请求的控制器。
 package com.example.blogsystemdemo.controller;
 
 import com.example.blogsystemdemo.constant.RabbitMQConstants;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 文章收藏控制器，负责处理文章收藏相关的 HTTP 请求。
+ */
 @RestController
 @RequestMapping("/article/collection")
 public class ArticleCollectionController {

@@ -1,5 +1,10 @@
 package com.example.blogsystemdemo.entity;
 
+/**
+ * 文章实体类，描述文章的基本信息和数据库字段。
+ * 对应数据库中的文章表，封装文章的所有字段。
+ */
+
 import lombok.Data;
 
 import java.time.LocalDateTime;

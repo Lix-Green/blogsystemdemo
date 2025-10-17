@@ -1,3 +1,4 @@
+// 处理用户相关请求的控制器。
 package com.example.blogsystemdemo.controller;
 
 import com.example.blogsystemdemo.dto.Result;
@@ -7,6 +8,9 @@ import com.example.blogsystemdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 用户控制器，负责处理用户注册、登录、信息获取等 HTTP 请求。
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {

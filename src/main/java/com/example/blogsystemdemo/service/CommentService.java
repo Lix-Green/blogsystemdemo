@@ -1,3 +1,6 @@
+/**
+ * 评论 Service，定义评论相关的业务方法。
+ */
 package com.example.blogsystemdemo.service;
 
 import com.example.blogsystemdemo.dto.CommentDTO;

@@ -1,5 +1,9 @@
 package com.example.blogsystemdemo.service;
 
+/**
+ * 用户 Service，定义用户相关的业务方法。
+ */
+
 import com.example.blogsystemdemo.dto.Result;
 import com.example.blogsystemdemo.dto.UserDTO;
 import com.example.blogsystemdemo.entity.User;
@@ -17,4 +21,3 @@ public interface UserService {
     // 添加注册方法
     Result<User> register(UserDTO userDTO);
 }
-

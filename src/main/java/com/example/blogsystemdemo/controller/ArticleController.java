@@ -1,3 +1,4 @@
+// 处理文章相关请求的控制器。
 package com.example.blogsystemdemo.controller;
 
 import com.example.blogsystemdemo.dto.ArticleDTO;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
+/**
+ * 文章控制器，负责处理文章的增删改查等 HTTP 请求。
+ */
 @RestController
 @RequestMapping("/articles")
 public class ArticleController {

@@ -1,6 +1,13 @@
+/*
+ * 文章相关接口封装，负责与后端进行文章的增删改查、点赞、收藏等 HTTP 请求。
+ */
 import request from './index';
 
-// 创建文章
+/**
+ * 创建文章
+ * @param {Object} data 文章数据
+ * @returns {Promise}
+ */
 export const createArticle = (data) => {
     return request({
         url: '/articles',
@@ -9,7 +16,11 @@ export const createArticle = (data) => {
     });
 };
 
-// 获取文章列表（分页）
+/**
+ * 获取文章列表（分页）
+ * @param {Object} params 查询参数
+ * @returns {Promise}
+ */
 export const getArticleList = (params) => {
     return request({
         url: '/articles',
@@ -18,7 +29,11 @@ export const getArticleList = (params) => {
     });
 };
 
-// 获取当前用户的文章列表（需登录，使用请求头 User-Id）
+/**
+ * 获取当前用户的文章列表（需登录，使用请求头 User-Id）
+ * @param {Object} params 查询参数
+ * @returns {Promise}
+ */
 export const getMyArticles = (params) => {
     return request({
         url: '/articles/my',
@@ -27,7 +42,11 @@ export const getMyArticles = (params) => {
     });
 };
 
-// 获取文章详情
+/**
+ * 获取文章详情
+ * @param {number|string} id 文章ID
+ * @returns {Promise}
+ */
 export const getArticleDetail = (id) => {
     return request({
         url: `/articles/${id}`,
@@ -35,7 +54,12 @@ export const getArticleDetail = (id) => {
     });
 };
 
-// 更新文章
+/**
+ * 更新文章
+ * @param {number|string} id 文章ID
+ * @param {Object} data 新的文章数据
+ * @returns {Promise}
+ */
 export const updateArticle = (id, data) => {
     return request({
         url: `/articles/${id}`,
@@ -43,7 +67,12 @@ export const updateArticle = (id, data) => {
         data
     });
 };
-// 删除文章
+
+/**
+ * 删除文章
+ * @param {number|string} id 文章ID
+ * @returns {Promise}
+ */
 export const deleteArticle = (id) => {
     return request({
         url: `/articles/${id}`,
@@ -51,12 +80,20 @@ export const deleteArticle = (id) => {
     });
 };
 
-// 获取最新文章（首页用）
+/**
+ * 获取最新文章（首页用）
+ * @returns {Promise}
+ */
 export const getLatestArticles = () => {
     return getArticleList({pageNum: 1, pageSize: 10});
 };
 
-// 获取热门文章（使用request代替原生axios，与其他接口风格统一）
+/**
+ * 获取热门文章（使用request代替原生axios，与其他接口风格统一）
+ * @param {number} pageNum 页码
+ * @param {number} pageSize 页面大小
+ * @returns {Promise}
+ */
 export const getHotArticles = (pageNum = 1, pageSize = 5) => {
     return request({
         url: '/articles/hot',
@@ -68,7 +105,11 @@ export const getHotArticles = (pageNum = 1, pageSize = 5) => {
     });
 };
 
-// 1. 文章点赞/取消点赞（异步提交到RabbitMQ）
+/**
+ * 文章点赞/取消点赞（异步提交到RabbitMQ）
+ * @param {number|string} articleId 文章ID
+ * @returns {Promise}
+ */
 export const toggleArticleLike = (articleId) => {
     return request({
         url: '/article/like/toggle',
@@ -76,7 +117,12 @@ export const toggleArticleLike = (articleId) => {
         params: {articleId}
     });
 };
-// 2. 查询文章点赞状态（用户是否已点赞）
+
+/**
+ * 查询文章点赞状态（用户是否已点赞）
+ * @param {number|string} articleId 文章ID
+ * @returns {Promise}
+ */
 export const getArticleLikeStatus = (articleId) => {
     return request({
         url: '/article/like/status',
@@ -85,8 +131,11 @@ export const getArticleLikeStatus = (articleId) => {
     });
 };
 
-
-// 4. 文章收藏/取消收藏（异步提交到RabbitMQ）
+/**
+ * 文章收藏/取消收藏（异步提交到RabbitMQ）
+ * @param {number|string} articleId 文章ID
+ * @returns {Promise}
+ */
 export const toggleArticleCollection = (articleId) => {
     return request({
         url: '/article/collection/toggle',
@@ -94,7 +143,12 @@ export const toggleArticleCollection = (articleId) => {
         params: {articleId}
     });
 };
-// 4. 查询文章收藏状态（用户是否已收藏）
+
+/**
+ * 查询文章收藏状态（用户是否已收藏）
+ * @param {number|string} articleId 文章ID
+ * @returns {Promise}
+ */
 export const getArticleCollectionStatus = (articleId) => {
     return request({
         url: '/article/collection/status',
@@ -103,7 +157,10 @@ export const getArticleCollectionStatus = (articleId) => {
     });
 };
 
-// 5. 查询当前用户收藏的文章ID列表
+/**
+ * 查询当前用户收藏的文章ID列表
+ * @returns {Promise}
+ */
 export const getMyCollectedArticleIds = () => {
     return request({
         url: '/article/collection/user/list',
