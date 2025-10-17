@@ -6,6 +6,7 @@
   <div class="message-board-card">
     <div class="section-header">
       <span class="section-title">留言板</span>
+      <span class="info-tip">只展示最近的20条</span>
     </div>
     <div class="message-list">
       <div v-if="messages.length === 0" class="no-message">
@@ -63,7 +64,10 @@ async function fetchMessages() {
   loading.value = true;
   try {
     const res = await getMessages();
-    messages.value = Array.isArray(res.data) ? res.data : [];
+    let arr = Array.isArray(res.data) ? res.data : [];
+    // 按时间降序排序并只取最新20条
+    arr = arr.sort((a, b) => new Date(b.createTime) - new Date(a.createTime)).slice(0, 20);
+    messages.value = arr;
   } catch (e) {
     ElMessage.error('获取留言失败');
   } finally {
@@ -129,6 +133,16 @@ onMounted(fetchMessages);
   font-weight: 600;
   color: #333;
   padding: ;
+}
+
+.info-tip {
+  font-size: 13px;
+  color: #888;
+  margin-left: auto;
+  padding-left: 12px;
+  font-style: italic;
+  letter-spacing: 1px;
+  align-self: flex-end;
 }
 
 .message-list {
