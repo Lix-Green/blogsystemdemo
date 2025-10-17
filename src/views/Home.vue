@@ -73,11 +73,28 @@
           <span class="section-badge">
             {{ showSearchResults ? '按相关度排序' : '按发布时间排序' }}
           </span>
+          <!-- 视图切换，仅在非搜索状态可见 -->
+          <div class="view-toggle" v-if="!showSearchResults">
+            <el-button-group>
+              <el-button :type="viewMode === 'grid' ? 'primary' : 'default'" size="small" @click="viewMode = 'grid'"
+                         :title="'网格视图'">
+                <el-icon>
+                  <Grid/>
+                </el-icon>
+              </el-button>
+              <el-button :type="viewMode === 'list' ? 'primary' : 'default'" size="small" @click="viewMode = 'list'"
+                         :title="'列表视图'">
+                <el-icon>
+                  <List/>
+                </el-icon>
+              </el-button>
+            </el-button-group>
+          </div>
         </div>
 
-        <!-- 文章列表 -->
-        <el-row :gutter="20" class="latest-article-list">
-          <!-- 搜索结果或最新文章 -->
+        <!-- 文章列表：网格视图或搜索结果使用现有卡片布局 -->
+        <el-row :gutter="20" class="latest-article-list" v-if="showSearchResults || viewMode === 'grid'">
+          <!-- 搜索结果或最新文章（网格） -->
           <el-col
               :xs="24"
               :sm="showSearchResults ? 24 : 12"
@@ -111,7 +128,53 @@
           </el-col>
         </el-row>
 
-        <!-- 加载更多（搜索结果） -->
+        <!-- 文章列表：列表视图（仅在非搜索时可见） -->
+        <div class="article-list-view" v-if="!showSearchResults && viewMode === 'list'">
+          <div class="list-item" v-for="article in articles" :key="article.id" @click="handleArticleClick(article.id)">
+            <div class="list-cover" v-if="article.coverImage">
+              <el-image :src="article.coverImage" fit="cover"/>
+            </div>
+            <div class="list-content">
+              <div class="list-title">{{ article.title }}</div>
+              <div class="list-summary" v-if="article.summary">{{ article.summary }}</div>
+              <div class="list-meta">
+                <span class="meta-item">
+                  <el-icon size="14" class="meta-icon"><User/></el-icon>
+                  {{ article.author?.nickname || '未知作者' }}
+                </span>
+                <span class="meta-item">
+                  <el-icon size="14" class="meta-icon"><Calendar/></el-icon>
+                  {{ formatTime(article.createdTime) }}
+                </span>
+                <span class="meta-item">
+                  <el-icon size="14" class="meta-icon"><View/></el-icon>
+                  {{ formatCount(article.viewCount) }} 阅读
+                </span>
+                <span class="meta-item" v-if="article.commentCount !== undefined">
+                  <el-icon size="14" class="meta-icon"><MessageIcon/></el-icon>
+                  {{ formatCount(article.commentCount) }} 评论
+                </span>
+                <span class="meta-item" v-if="article.likeCount !== undefined">
+                  <el-icon size="14" class="meta-icon"><Star/></el-icon>
+                  {{ formatCount(article.likeCount) }} 赞
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 无最新文章提示（列表视图） -->
+          <div class="empty-tip" v-if="articles.length === 0 && !loading">
+            <el-empty description="暂无最新文章，快去发布你的第一篇吧~">
+              <template #bottom>
+                <el-button type="primary" @click="$router.push('/articles/edit')">
+                  发布文章
+                </el-button>
+              </template>
+            </el-empty>
+          </div>
+        </div>
+
+        <!-- 加载更多（搜��结果） -->
         <div class="load-more" v-if="showSearchResults && filteredArticles.length > 0">
           <el-button
               type="text"
@@ -133,7 +196,7 @@
           <span class="section-badge">按阅读量排序</span>
         </div>
 
-        <!-- 热门文章卡片容器 -->
+        <!-- 热门文章��片容器 -->
         <div class="hot-article-card">
           <el-skeleton
               :loading="hotLoading"
@@ -160,7 +223,7 @@
                     {{ formatCount(item.viewCount) }} 阅读
                   </span>
                   <span class="meta-item">
-                    <el-icon size="14" class="meta-icon"><Message/></el-icon>
+                    <el-icon size="14" class="meta-icon"><MessageIcon/></el-icon>
                     {{ formatCount(item.commentCount) }} 评论
                   </span>
                 </div>
@@ -187,7 +250,7 @@ import {getLatestArticles, getHotArticles} from '../api/article';
 import ArticleCard from '../components/ArticleCard.vue';
 import MessageBoard from '../components/MessageBoard.vue';
 import {ElMessage, ElEmpty, ElIcon, ElSkeleton} from 'element-plus';
-import {Search, Refresh, View} from '@element-plus/icons-vue';
+import {Search, Refresh, View, Grid, List, User, Calendar, Message as MessageIcon, Star} from '@element-plus/icons-vue';
 
 const router = useRouter();
 
@@ -202,6 +265,11 @@ const searchForm = ref({
 });
 const searchLoading = ref(false);
 const showSearchResults = ref(false);
+
+/**
+ * 视图模式：grid（网格） | list（列表）
+ */
+const viewMode = ref('grid');
 
 /**
  * articles 最新文章列表
@@ -352,6 +420,16 @@ const formatCount = (count) => {
   return count;
 };
 
+// 简单格式化时间
+const formatTime = (timeStr) => {
+  if (!timeStr) return '';
+  try {
+    return new Date(timeStr).toLocaleDateString();
+  } catch (e) {
+    return String(timeStr);
+  }
+};
+
 // 文章点击跳转
 const handleArticleClick = (articleId) => {
   if (articleId) {
@@ -457,7 +535,12 @@ onMounted(() => {
   letter-spacing: 0.2px;
 }
 
-/* 文章列表样式 */
+/* 视图切换 */
+.view-toggle {
+  margin-left: auto;
+}
+
+/* 文章列表样式（网格） */
 .latest-article-list {
   margin-top: 10px;
   display: flex;
@@ -470,6 +553,79 @@ onMounted(() => {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 列表视图样式 */
+.article-list-view {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.list-item {
+  display: flex;
+  gap: 16px;
+  padding: 14px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.list-item:hover {
+  background-color: #f8fafc;
+  transform: translateY(-2px);
+}
+
+.list-cover {
+  width: 160px;
+  height: 100px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.list-cover .el-image, .list-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.list-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.list-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.list-summary {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.list-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #718096;
 }
 
 /* 加载更多按钮 */
@@ -623,6 +779,11 @@ onMounted(() => {
 
   .article-title {
     font-size: 14.5px;
+  }
+
+  .list-cover {
+    width: 120px;
+    height: 80px;
   }
 }
 </style>
